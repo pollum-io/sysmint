@@ -80,7 +80,7 @@ export default function Transfer() {
   return (
     <section>
       <div className="inner">
-        <h1>Issue Fungible Tokens into Circulation</h1>
+        <h1>Transfer Ownership</h1>
         <p className="c">
         Transfer an asset definition you own/manage to another address that will
          take over those rights. This process uses `assetTransfer`. This is not
@@ -126,7 +126,7 @@ export default function Transfer() {
             <div className="form-group col-50 col-md-100">
               <label htmlFor="newaddr">
                 New Issuer/Owner Address{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="The address of the new owner. Must be a valid SYS address."></i>
               </label>
               <input
                 onChange={handleInputChange(setNewOwner)}

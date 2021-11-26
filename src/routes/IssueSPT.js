@@ -164,7 +164,7 @@ export default function IssueSPT() {
             <div className="form-group col-33 col-md-100">
               <label htmlFor="quantity">
                 Quantity to Issue{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="The quantity you want to issue (to be in circulation)."></i>
               </label>
               <input
                 onChange={handleInputChange(setAmount)}

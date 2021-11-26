@@ -19,7 +19,7 @@ export default function About() {
         We are constantly improving this application. If you have questions, 
         ideas to improve SysMint, or you believe you have identified a bug, 
         reach-out to us in the official Syscoin Discord on {" "}
-        <a href="#">the xxxxx channel. </a> 
+        <a href="https://discord.gg/pFKwV3kA9k">the testnet or development channel. </a> 
         We appreciate your feedback!{" "}
         </p>
         <blockquote className="c">

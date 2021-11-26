@@ -130,7 +130,7 @@ export default function AdvancedPanel({
           <div className="form-group col-50 spaced col-sm-100">
             <label htmlFor="signer">
               Signer Address *{" "}
-              <i className="icon-info-circled" title="help goes here"></i>
+              <i className="icon-info-circled" title="The address of who will sign this transaction."></i>
             </label>
             <input
               onChange={handleInputChange(setNotaryAddress)}
@@ -146,7 +146,7 @@ export default function AdvancedPanel({
           <div className="form-group col-50 spaced col-sm-100">
             <label htmlFor="endpointurl">
               Endpoint URL *{" "}
-              <i className="icon-info-circled" title="help goes here"></i>
+              <i className="icon-info-circled" title="Fully qualified URL of the notary endpoint. The endpoint will be sent a POST request with transaction hex and some other details in a JSON object and requires a signature signing the transaction following notarization protocol."></i>
             </label>
             <input
               onChange={handleInputChange(setEndpoint)}
@@ -273,7 +273,7 @@ export default function AdvancedPanel({
           <div className="form-group col-100 spaced">
             <label htmlFor="payout">
               Payout Address *{" "}
-              <i className="icon-info-circled" title="help goes here"></i>
+              <i className="icon-info-circled" title="Your payout address."></i>
             </label>
             <input
               onChange={handleInputChange(setAuxFeeKeyID)}
@@ -372,7 +372,7 @@ export default function AdvancedPanel({
             <div className="form-group col-100">
               <label htmlFor="contract">
                 Contract{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="ERC20 address of the contract connected to this SPT for use in the SysEthereum bridge."></i>
               </label>
               <input
                 onChange={handleInputChange(setContract)}

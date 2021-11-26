@@ -138,7 +138,7 @@ export default function Update() {
             <div className="form-group col-67 col-md-50 col-sm-100">
               <label htmlFor="description">
                 Description{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="Description in ASCII describing token. The description will be encoded via JSON in the pubdata field for the asset and will be in the 'desc' field of the JSON object."></i>
               </label>
               <textarea
                 onChange={handleInputChange(setDescription)}

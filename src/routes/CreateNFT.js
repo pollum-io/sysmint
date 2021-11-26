@@ -206,7 +206,7 @@ export default function CreateNFT() {
             <div className="form-group col-33 col-xs-100">
               <label htmlFor="symbol">
                 Symbol{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="The symbol/name you want to give to your NFT."></i>
               </label>
               <input
                 onChange={handleInputChange(setSymbol)}
@@ -221,7 +221,7 @@ export default function CreateNFT() {
             <div className="form-group col-67 col-xs-100 xs-spaced-top">
               <label htmlFor="shares">
                 Total Shares{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="The precision of your NFT. Range is 0 to 8."></i>
               </label>
               <select
                 className="form-control"
@@ -255,7 +255,7 @@ export default function CreateNFT() {
             <div className="form-group col-67 col-md-50 col-sm-100">
               <label htmlFor="description">
                 Description{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="Description in ASCII describing token. The description will be encoded via JSON in the pubdata field for the asset and will be in the 'desc' field of the JSON object."></i>
               </label>
               <textarea
                 onChange={handleInputChange(setDescription)}
@@ -287,7 +287,7 @@ export default function CreateNFT() {
             <div className="form-group col-67 col-md-50 col-sm-100">
               <label htmlFor="owneraddr">
                 Metadata url{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="This is the metadata url of your NFT."></i>
               </label>
               <input
                 defaultValue={metadataDescription}

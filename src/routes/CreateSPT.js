@@ -203,7 +203,7 @@ export default function CreateSPT() {
             <div className="form-group col-33 col-xs-100">
               <label htmlFor="symbol">
                 Symbol{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="The symbol/name you want to give to your SPT."></i>
               </label>
               <input
                 onChange={handleInputChange(setSymbol)}
@@ -218,7 +218,7 @@ export default function CreateSPT() {
             <div className="form-group col-67 col-xs-100 xs-spaced-top">
               <label htmlFor="owneraddr">
                 Issuer/Owner Address{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="The owner of this SPT. Must be a valid SYS address."></i>
               </label>
               <input
                 onChange={handleInputChange(setReceiver)}
@@ -238,7 +238,7 @@ export default function CreateSPT() {
             <div className="form-group col-33 col-lg-50 col-xs-100">
               <label htmlFor="precision">
                 Precision{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="The precision of your SPT. Range is 0 to 8."></i>
               </label>
               <input
                 onChange={handleInputChange(setPrecision)}
@@ -254,7 +254,7 @@ export default function CreateSPT() {
             <div className="form-group col-33 col-lg-50 col-xs-100 xs-spaced-top">
               <label htmlFor="supply">
                 Max supply{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="Maximum satoshis for supply. Range is 1 to 1 quintillion (10^18)."></i>
               </label>
               <input
                 onChange={handleInputChange(setMaxSupply)}
@@ -272,7 +272,7 @@ export default function CreateSPT() {
             <div className="form-group col-33 col-lg-100 lg-spaced-top">
               <label htmlFor="initialsupply">
                 Initial Circulating Supply{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="The quantity you already want to have in circulation of this SPT. Must be less than the max supply and the maximum is 10000000000."></i>
               </label>
               <input
                 min="0"
@@ -305,7 +305,7 @@ export default function CreateSPT() {
             <div className="form-group col-67 col-md-50 col-sm-100">
               <label htmlFor="description">
                 Description{" "}
-                <i className="icon-info-circled" title="help goes here"></i>
+                <i className="icon-info-circled" title="TDescription in ASCII describing token. The description will be encoded via JSON in the pubdata field for the asset and will be in the 'desc' field of the JSON object."></i>
               </label>
               <input
                 onChange={handleInputChange(setDescription)}
