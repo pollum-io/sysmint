@@ -53,7 +53,7 @@ function AssetCard({ asset }) {
           </a>
         </div>
         <div className="asset-id">Asset ID: {asset.baseAssetID}</div>
-        {controller.isNFT(asset.assetGuid) && asset.childAssetID && asset.NFTID && (
+        {controller && controller.isNFT(asset.assetGuid) && asset.childAssetID && asset.NFTID && (
           <div>
             <div className="nft-id">Child ID: {asset.childAssetID}</div>
             <div className="nft-id">NFT ID: {asset.NFTID}</div>
@@ -84,7 +84,7 @@ function AssetCard({ asset }) {
           </a>
         </div>
         <div className="asset-id">Asset ID: {asset.assetGuid}</div>
-        {controller.isNFT(asset.assetGuid) && asset.baseAssetID && (
+        {controller && controller.isNFT(asset.assetGuid) && asset.baseAssetID && (
           <div className="nft-id">Base asset ID: {asset.baseAssetID}</div>
         )}
       </div>
@@ -97,7 +97,7 @@ function AssetCard({ asset }) {
         <NFTCard />
       ) : (
         <div>
-          {controller.isNFT(asset.assetGuid) && asset.baseAssetID && asset.childAssetID ? (
+          {controller && controller.isNFT(asset.assetGuid) && asset.baseAssetID && asset.childAssetID ? (
             <NFTChildCard />
           ) : (
             <SPTCard />
