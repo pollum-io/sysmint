@@ -164,7 +164,7 @@ const Header = () => {
               Support
             </a>
             <a
-              href="https://syscoin.org/wallets-and-exchanges"
+              href="https://syscoin.org/get-sys#wallets"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -178,7 +178,7 @@ const Header = () => {
               Github
             </a>
             <a
-              href="https://discord.gg/RkK2AXD"
+              href="https://discord.com/invite/syscoin"
               rel="noopener noreferrer"
               target="_blank"
             >
