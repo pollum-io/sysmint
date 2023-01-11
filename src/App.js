@@ -25,23 +25,6 @@ const App = () => {
   const [componentIsConnected, setComponentIsConnected] = useState(false);
   const [walletLocked, setWalletLocked] = useState(false);
 
-  useEffect(() => {
-    const callback = async (event) => {
-      if (event.detail.SyscoinInstalled) {
-        store.dispatch(setIsInstalled(true));
-
-        if (event.detail.ConnectionsController) {
-          store.dispatch(setController(window.ConnectionsController));
-        }
-
-        return;
-      }
-
-      window.removeEventListener('SyscoinStatus', callback);
-    }
-
-    window.addEventListener('SyscoinStatus', callback);
-  }, []);
 
   window.onload = async () => {
     const {
@@ -50,7 +33,11 @@ const App = () => {
       controller,
       isInstalled
     } = store.getState();
-
+    if (typeof window.pali !== 'undefined') {
+      console.log('Pali is installed!');
+      store.dispatch(setIsInstalled(true));
+      store.dispatch(setController(window.pali));
+    }
     connected && setComponentIsConnected(connected);
     setWalletLocked(isLocked);
     setIsloading(!isLoading);
@@ -58,7 +45,8 @@ const App = () => {
     setupState();
 
     if (isInstalled && controller !== null) {
-      controller.onWalletUpdate(setupState);
+      //TODO: listen to the chainChanged and lockStateChanged events for doing alterations
+      // controller.onWalletUpdate(setupState);
 
       setWalletLocked(isLocked);
       setComponentIsConnected(connected);

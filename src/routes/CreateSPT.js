@@ -52,7 +52,7 @@ export default function CreateSPT() {
       await schema.validate(dataYup, { abortEarly: false });
 
       if (
-        await controller.isValidSYSAddress(receiver || connectedAccountAddress)
+        await controller.request({method: 'sys_isValidSYSAddress', params:[receiver || connectedAccountAddress]})
       ) {
         if (maxSupply < initialSupply) {
           toast.error("Max supply must be greater than initial supply", { position: "bottom-right" });

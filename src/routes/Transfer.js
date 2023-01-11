@@ -55,7 +55,7 @@ export default function Transfer() {
     await schema
       .validate(dataYup, { abortEarly: false })
       .then(async () => {
-        if (await controller.isValidSYSAddress(newOwner)) {
+        if (await controller.request({method: 'sys_isValidSYSAddress', params:[newOwner]})) {
           controller &&
             controller
               .handleTransferOwnership({assetGuid, newOwner})

@@ -12,8 +12,8 @@ const Header = () => {
 
   const connectWallet = async () => {
     controller
-      ? await controller.connectWallet()
-      : await window.ConnectionsController.connectWallet();
+      ? await controller.request({method: 'sys_requestAccounts', params:[]})
+      : await window.pali.request({method: 'sys_requestAccounts', params:[]});
   };
 
   useEffect(() => {
