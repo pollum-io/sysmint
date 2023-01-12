@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 
@@ -15,26 +15,21 @@ import Header from "./components/Header";
 import store from "./state/store";
 import { setupState } from "./utils/setupState";
 
-import {
-  setController,
-  setIsInstalled,
-} from "./state/wallet";
+import { setController, setIsInstalled } from "./state/wallet";
 
 const App = () => {
   const [isLoading, setIsloading] = useState(true);
   const [componentIsConnected, setComponentIsConnected] = useState(false);
   const [walletLocked, setWalletLocked] = useState(false);
 
-
   window.onload = async () => {
-    const {
-      connected,
-      isLocked,
-      controller,
-      isInstalled
-    } = store.getState();
-    if (typeof window.pali !== 'undefined') {
-      console.log('Pali is installed!');
+    const { connected, isLocked } = store.getState();
+    let controller = null;
+    let isInstalled = false;
+    if (typeof window.pali !== "undefined") {
+      console.log("Pali is installed!");
+      controller = window.pali;
+      isInstalled = true;
       store.dispatch(setIsInstalled(true));
       store.dispatch(setController(window.pali));
     }
@@ -46,12 +41,11 @@ const App = () => {
 
     if (isInstalled && controller !== null) {
       //TODO: listen to the chainChanged and lockStateChanged events for doing alterations
-      // controller.onWalletUpdate(setupState);
 
       setWalletLocked(isLocked);
       setComponentIsConnected(connected);
     }
-  }
+  };
 
   store.subscribe(async () => {
     const { connected, isLocked } = store.getState();
@@ -74,7 +68,11 @@ const App = () => {
                 <Route
                   path="/"
                   exact
-                  component={!store.getState().connected || store.getState().isLocked ? Home : Dashboard}
+                  component={
+                    !store.getState().connected || store.getState().isLocked
+                      ? Home
+                      : Dashboard
+                  }
                 />
                 {store.getState().connected && !store.getState().isLocked ? (
                   <Switch>
