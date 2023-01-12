@@ -22,7 +22,7 @@ export default function IssueSPT() {
     controller &&
       setIsLoading(true);
 
-      controller.getUserMintedTokens().then((data) => {
+      controller._sys.getUserMintedTokens().then((data) => {
         data && setTokens(data);
 
         setIsLoading(false);
@@ -33,7 +33,7 @@ export default function IssueSPT() {
 
   useEffect(() => {
     if (controller && assetGuid) {
-      controller.getDataAsset(assetGuid).then((data) => {
+      controller._sys.getDataAsset(assetGuid).then((data) => {
         const { maxSupply, totalSupply, decimals } = data;
         setDecimals(decimals);
 

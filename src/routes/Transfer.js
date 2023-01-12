@@ -20,7 +20,7 @@ export default function Transfer() {
     controller &&
       setIsLoading(true);
 
-      controller.getUserMintedTokens().then((data) => {
+      controller._sys.getUserMintedTokens().then((data) => {
         data && setTokens(data);
 
         setIsLoading(false);

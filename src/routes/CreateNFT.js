@@ -46,13 +46,20 @@ export default function CreateNFT() {
 
       await schema.validate(dataYup, { abortEarly: false });
 
-      controller.handleCreateNFT({
-        symbol,
+      // controller.handleCreateNFT({
+      //   symbol,
+      //   issuer: connectedAccountAddress,
+      //   precision: Number(precision),
+      //   description: metadataDescription,
+      //   ...advancedOptions,
+      // })
+      controller.request({method: 'sys_createNft', params: [{
+          symbol,
         issuer: connectedAccountAddress,
         precision: Number(precision),
         description: metadataDescription,
         ...advancedOptions,
-      })
+      }]})
       .catch((err) => {
         toast.dismiss()
         toast.error(err, { position: "bottom-right" });

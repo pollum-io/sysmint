@@ -60,8 +60,17 @@ export default function CreateSPT() {
           return;
         }
 
-        controller
-          .handleCreateToken({
+        // controller
+        //   .handleCreateToken({
+        //     precision: Number(precision),
+        //     symbol,
+        //     maxsupply: Number(maxSupply),
+        //     description,
+        //     receiver: receiver || connectedAccountAddress,
+        //     initialSupply: Number(initialSupply),
+        //     ...advancedOptions,
+        //   })
+        controller.request({method: 'sys_createToken', params: [{
             precision: Number(precision),
             symbol,
             maxsupply: Number(maxSupply),
@@ -69,7 +78,7 @@ export default function CreateSPT() {
             receiver: receiver || connectedAccountAddress,
             initialSupply: Number(initialSupply),
             ...advancedOptions,
-          })
+        }]})
           .then(async (tx) => {
             if (file) {
               setIsUploading(true);
