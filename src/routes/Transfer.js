@@ -17,20 +17,19 @@ export default function Transfer() {
   );
 
   useEffect(() => {
-    controller &&
-      setIsLoading(true);
+    controller && setIsLoading(true);
 
-      controller._sys.getUserMintedTokens().then((data) => {
-        data && setTokens(data);
+    controller._sys.getUserMintedTokens().then((data) => {
+      data && setTokens(data);
 
-        setIsLoading(false);
-      });
+      setIsLoading(false);
+    });
 
     return () => setTokens([]);
   }, []);
 
   useEffect(() => {
-    tokens.length || !tokens && setIsLoading(false);
+    tokens.length || (!tokens && setIsLoading(false));
   }, [tokens]);
 
   const dataYup = {
@@ -55,24 +54,22 @@ export default function Transfer() {
     await schema
       .validate(dataYup, { abortEarly: false })
       .then(async () => {
-        if (await controller.request({method: 'sys_isValidSYSAddress', params:[newOwner]})) {
-          controller &&
-            controller
-              .handleTransferOwnership({assetGuid, newOwner})
-              .catch((err) => {
-                toast.dismiss()
-                toast.error(err, {position: "bottom-right"});
-              });
-          event.target.reset();
-          return;
-        }
-        toast.dismiss()
-        toast.error("Invalid Address", {position: "bottom-right"});
+        controller &&
+          controller
+            .request({
+              method: "sys_transferAssetOwnership",
+              params: [{ assetGuid, newOwner }],
+            })
+            .catch((err) => {
+              toast.dismiss();
+              toast.error(err, { position: "bottom-right" });
+            });
+        event.target.reset();
       })
       .catch((err) => {
         err.errors.forEach((error) => {
-          toast.dismiss()
-          toast.error(error, {position: "bottom-right"});
+          toast.dismiss();
+          toast.error(error, { position: "bottom-right" });
         });
       });
   };
@@ -82,14 +79,15 @@ export default function Transfer() {
       <div className="inner">
         <h1>Transfer Ownership</h1>
         <p className="c">
-        Transfer an asset definition you own/manage to another address that will
-         take over those rights. This process uses `assetTransfer`. This is not
-          for transferring value (use your wallet for that), it is for
-           transferring ownership of the asset definition itself.
+          Transfer an asset definition you own/manage to another address that
+          will take over those rights. This process uses `assetTransfer`. This
+          is not for transferring value (use your wallet for that), it is for
+          transferring ownership of the asset definition itself.
         </p>
         <p className="c">
-        NOTE: If you transfer ownership of an asset definition to an address for
-         which you do not hold the key, you will no longer own nor manage it.
+          NOTE: If you transfer ownership of an asset definition to an address
+          for which you do not hold the key, you will no longer own nor manage
+          it.
         </p>
 
         <form onSubmit={handleTransferOwnership}>
@@ -99,12 +97,9 @@ export default function Transfer() {
 
           <div className="form-line">
             <div className="form-group col-100">
-            <label htmlFor="token" className="loaderTokens">
-                <span >
-                  Standard Token{" "}
-                  {isLoading && (
-                    <img  src={loaderImg} alt="" />
-                  )}
+              <label htmlFor="token" className="loaderTokens">
+                <span>
+                  Standard Token {isLoading && <img src={loaderImg} alt="" />}
                 </span>
               </label>
               <select
@@ -126,7 +121,10 @@ export default function Transfer() {
             <div className="form-group col-50 col-md-100">
               <label htmlFor="newaddr">
                 New Issuer/Owner Address{" "}
-                <i className="icon-info-circled" title="The address of the new owner. Must be a valid SYS address."></i>
+                <i
+                  className="icon-info-circled"
+                  title="The address of the new owner. Must be a valid SYS address."
+                ></i>
               </label>
               <input
                 onChange={handleInputChange(setNewOwner)}

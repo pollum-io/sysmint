@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import * as yup from "yup";
-import { Modal } from 'react-responsive-modal';
+import { Modal } from "react-responsive-modal";
 
-import 'react-responsive-modal/styles.css';
+import "react-responsive-modal/styles.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import loaderImg from "../images/spinner.svg";
 
@@ -19,34 +19,33 @@ export default function IssueSPT() {
   const controller = useSelector((state) => state.controller);
 
   useEffect(() => {
-    controller &&
-      setIsLoading(true);
+    controller && setIsLoading(true);
 
-      controller._sys.getUserMintedTokens().then((data) => {
-        data && setTokens(data);
+    controller._sys.getUserMintedTokens().then((data) => {
+      data && setTokens(data);
 
-        setIsLoading(false);
-      });
+      setIsLoading(false);
+    });
 
     return () => setTokens([]);
   }, []);
 
   useEffect(() => {
     if (controller && assetGuid) {
-      controller._sys.getDataAsset(assetGuid).then((data) => {
-        const { maxSupply, totalSupply, decimals } = data;
-        setDecimals(decimals);
-
-        setAsset({
-          maxSupply: maxSupply / Math.pow(10, decimals),
-          totalSupply: totalSupply / Math.pow(10, decimals),
-        });
+      const selectedToken = tokens.find(
+        (token) => token.assetGuid === assetGuid
+      );
+      const { maxSupply, totalSupply, decimals } = selectedToken;
+      setDecimals(decimals);
+      setAsset({
+        maxSupply: maxSupply / Math.pow(10, decimals),
+        totalSupply: totalSupply / Math.pow(10, decimals),
       });
     }
   }, [assetGuid]);
 
   useEffect(() => {
-    tokens.length || !tokens && setIsLoading(false);
+    tokens.length || (!tokens && setIsLoading(false));
   }, [tokens]);
 
   const dataYup = {
@@ -57,7 +56,7 @@ export default function IssueSPT() {
   const schema = yup.object().shape({
     amount: yup
       .number()
-      .min((1 / 10 ** decimals))
+      .min(1 / 10 ** decimals)
       .typeError("Quantity to Issue is required!")
       .required("Quantity to Issue is required!"),
     assetGuid: yup.string().required("Standard Token is required!"),
@@ -72,20 +71,21 @@ export default function IssueSPT() {
         if (amount <= asset.maxSupply - asset.totalSupply) {
           controller &&
             controller
-              .handleIssueSPT({amount: Number(amount), assetGuid})
+              .request({
+                method: "sys_mintNft",
+                params: [{ amount: Number(amount), assetGuid }],
+              })
               .catch((err) => {
-            toast.dismiss();
-            toast.error(err, {position: "bottom-right"});
+                toast.dismiss();
+                toast.error(err, { position: "bottom-right" });
               });
-          return;
+          event.target.reset();
         }
-        toast.dismiss()
-        toast.error("Invalid Quantity to Issue", {position: "bottom-right"});
       })
       .catch((err) => {
         err.errors.forEach((error) => {
-          toast.dismiss()
-          toast.error(error, {position: "bottom-right"});
+          toast.dismiss();
+          toast.error(error, { position: "bottom-right" });
         });
       });
   };
@@ -103,32 +103,35 @@ export default function IssueSPT() {
     <section>
       <div className="inner">
         <h1>Issue Fungible Tokens into Circulation</h1>
-        <p className="c">Issue more tokens of your fungible asset (a standard SPT) into circulation.
-          The maximum total quantity of tokens that you can issue is limited by the Max Supply value set in the token definition.
+        <p className="c">
+          Issue more tokens of your fungible asset (a standard SPT) into
+          circulation. The maximum total quantity of tokens that you can issue
+          is limited by the Max Supply value set in the token definition.
         </p>
         <p>
           Familiarize yourself with the{" "}
-           <span
-           className="modalOpen"
-           onClick={onOpenModal} >backend process</span>
-           {" "} this tool uses, if you
-          wish.
+          <span className="modalOpen" onClick={onOpenModal}>
+            backend process
+          </span>{" "}
+          this tool uses, if you wish.
         </p>
         <Modal open={open} onClose={onCloseModal} center>
-        <p>
-        SysMint automatically follows this process to issue more tokens into circulation.
-        </p>
-        <tbody border="2">
-          <tr>
-            <td className="tdb"> 1</td>
-            <td className="tdc">{"  "}
-             `assetSend` is executed, issuing your specified quantity. These new
-           tokens are minted at your Owner/Issuer address, from which these
-            tokens can then be sent to recipients using your wallet.</td>
-          </tr>
+          <p>
+            SysMint automatically follows this process to issue more tokens into
+            circulation.
+          </p>
+          <tbody border="2">
+            <tr>
+              <td className="tdb"> 1</td>
+              <td className="tdc">
+                {"  "}
+                `assetSend` is executed, issuing your specified quantity. These
+                new tokens are minted at your Owner/Issuer address, from which
+                these tokens can then be sent to recipients using your wallet.
+              </td>
+            </tr>
           </tbody>
-          <p>{" "}</p> 
-
+          <p> </p>
         </Modal>
         <form onSubmit={handleIssueSPT}>
           <div className="row">
@@ -137,12 +140,9 @@ export default function IssueSPT() {
           <ToastContainer />
           <div className="form-line">
             <div className="form-group col-100">
-            <label htmlFor="token" className="loaderTokens">
-                <span >
-                  Standard Token{" "}
-                  {isLoading && (
-                    <img  src={loaderImg} alt="" />
-                  )}
+              <label htmlFor="token" className="loaderTokens">
+                <span>
+                  Standard Token {isLoading && <img src={loaderImg} alt="" />}
                 </span>
               </label>
               <select
@@ -152,7 +152,11 @@ export default function IssueSPT() {
               >
                 <option></option>
                 {tokens.map((token) => (
-                  <option value={token.assetGuid} key={token.assetGuid}>
+                  <option
+                    value={token.assetGuid}
+                    key={token.assetGuid}
+                    onClick={() => console.log(token)}
+                  >
                     {token.assetGuid} - {token.symbol}
                   </option>
                 ))}
@@ -164,15 +168,21 @@ export default function IssueSPT() {
             <div className="form-group col-33 col-md-100">
               <label htmlFor="quantity">
                 Quantity to Issue{" "}
-                <i className="icon-info-circled" title="The quantity you want to issue (to be in circulation)."></i>
+                <i
+                  className="icon-info-circled"
+                  title="The quantity you want to issue (to be in circulation)."
+                ></i>
               </label>
               <input
                 onChange={handleInputChange(setAmount)}
                 type="text"
                 className="form-control"
                 id="amount"
-                value={amount.toString().replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1')}
-                min={(1 / 10 ** decimals)}
+                value={amount
+                  .toString()
+                  .replace(/[^0-9.]/g, "")
+                  .replace(/(\..*?)\..*/g, "$1")}
+                min={1 / 10 ** decimals}
               />
               <p className="help-block">
                 Ceiling: Max Supply
