@@ -37,10 +37,10 @@ const App = () => {
     setWalletLocked(isLocked);
     setIsloading(!isLoading);
 
-    setupState();
+    await setupState();
 
     if (isInstalled && controller !== null) {
-      //TODO: listen to the chainChanged and lockStateChanged events for doing alterations
+      controller.on('walletUpdate', () => { setupState() });
 
       setWalletLocked(isLocked);
       setComponentIsConnected(connected);

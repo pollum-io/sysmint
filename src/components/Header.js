@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import logo from "../images/logo.svg";
+// import logo from "../images/logo.svg";
 import { elementEventHandler } from "../utils/elementEventHandler";
 
 const Header = () => {
@@ -59,15 +59,15 @@ const Header = () => {
           <a className="openmenu">
             <i className="icon-menu"></i>
           </a>
-          <Link to="/" className="logo">
+          {/* <Link to="/" className="logo">
             <embed src={logo} />
-          </Link>
+          </Link> */}
         </div>
         <div className="desktopmenu">
           <div className="menu">
-            <Link to="/" className="logo">
+            {/* <Link to="/" className="logo">
               <embed src={logo} />
-            </Link>
+            </Link> */}
             <h1>Token Creation Tool</h1>
             <div className="nav-address">
               {isConnected ? (

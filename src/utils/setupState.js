@@ -14,15 +14,13 @@ const setState = ({ isConnected, isLocked, accountData }) => {
   );
 }
 
-export const setupState = () => {
+export const setupState = async () => {
   let isLocked = true;
 
   if (window.pali) {
     const controller = window.pali;
 
-    controller.isUnlocked().then((unlocked) => {
-      isLocked = !unlocked;
-    });
+    isLocked = !(await controller.isUnlocked());
 
     store.dispatch(setIsInstalled(true));
 
@@ -55,7 +53,6 @@ export const setupState = () => {
 
         return;
       }
-
       setState({
         isConnected: false,
         isLocked,

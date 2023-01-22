@@ -54,22 +54,11 @@ export default function CreateSPT() {
       if (
         await controller.request({method: 'sys_isValidSYSAddress', params:[receiver || connectedAccountAddress]})
       ) {
-        if (maxSupply < initialSupply) {
+        if (Number(maxSupply) < Number(initialSupply)) {
           toast.error("Max supply must be greater than initial supply", { position: "bottom-right" });
 
           return;
         }
-
-        // controller
-        //   .handleCreateToken({
-        //     precision: Number(precision),
-        //     symbol,
-        //     maxsupply: Number(maxSupply),
-        //     description,
-        //     receiver: receiver || connectedAccountAddress,
-        //     initialSupply: Number(initialSupply),
-        //     ...advancedOptions,
-        //   })
         controller.request({method: 'sys_createToken', params: [{
             precision: Number(precision),
             symbol,
