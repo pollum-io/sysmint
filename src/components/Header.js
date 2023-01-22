@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+//Unused for now as this breaks our contentScripts
 // import logo from "../images/logo.svg";
 import { elementEventHandler } from "../utils/elementEventHandler";
 
