@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+//Unused for now as this breaks our contentScripts
 import logo from "../images/logo.svg";
 import { elementEventHandler } from "../utils/elementEventHandler";
 
@@ -12,8 +12,8 @@ const Header = () => {
 
   const connectWallet = async () => {
     controller
-      ? await controller.connectWallet()
-      : await window.ConnectionsController.connectWallet();
+      ? await controller.request({method: 'sys_requestAccounts', params:[]})
+      : await window.pali.request({method: 'sys_requestAccounts', params:[]});
   };
 
   useEffect(() => {
@@ -60,13 +60,13 @@ const Header = () => {
             <i className="icon-menu"></i>
           </a>
           <Link to="/" className="logo">
-            <embed src={logo} />
+              <img src={logo} alt="" />
           </Link>
         </div>
         <div className="desktopmenu">
           <div className="menu">
             <Link to="/" className="logo">
-              <embed src={logo} />
+              <img src={logo} alt="" />
             </Link>
             <h1>Token Creation Tool</h1>
             <div className="nav-address">

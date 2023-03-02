@@ -14,49 +14,45 @@ const setState = ({ isConnected, isLocked, accountData }) => {
   );
 }
 
-export const setupState = () => {
+export const setupState = async () => {
   let isLocked = true;
 
-  if (window.ConnectionsController) {
-    const controller = window.ConnectionsController;
+  if (window.pali) {
+    const controller = window.pali;
 
-    controller.isLocked().then((locked) => {
-      isLocked = locked;
-    });
+    isLocked = !(await controller.isUnlocked());
 
     store.dispatch(setIsInstalled(true));
 
-    controller.getConnectedAccount().then((account) => {
+    controller.request({method: 'wallet_getAccount', params: []}).then((account) => {
       if (account) {
         if (isLocked) {
           setState({
             isConnected: true,
             isLocked,
             accountData: {
-              balance: account.balance,
+              balance: account.balances.syscoin,
               connectedAccount: { ...account, assets: [] },
-              connectedAccountAddress: account.address.main,
+              connectedAccountAddress: account.address,
             }
           });
 
           return;
         }
-
-        controller.getHoldingsData().then((holdings) => {
+        controller.request({method: 'wallet_getTokens', params: []}).then((holdings) => {
           setState({
             isConnected: true,
             isLocked,
             accountData: {
-              balance: account.balance,
-              connectedAccount: { ...account, assets: holdings },
-              connectedAccountAddress: account.address.main,
+              balance: account.balances.syscoin,
+              connectedAccount: { ...account, assets: holdings.syscoin },
+              connectedAccountAddress: account.address,
             }
           });
         })
 
         return;
       }
-
       setState({
         isConnected: false,
         isLocked,

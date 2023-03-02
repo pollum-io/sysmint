@@ -52,16 +52,14 @@ export default function CreateSPT() {
       await schema.validate(dataYup, { abortEarly: false });
 
       if (
-        await controller.isValidSYSAddress(receiver || connectedAccountAddress)
+        await controller.request({method: 'sys_isValidSYSAddress', params:[receiver || connectedAccountAddress]})
       ) {
-        if (maxSupply < initialSupply) {
+        if (Number(maxSupply) < Number(initialSupply)) {
           toast.error("Max supply must be greater than initial supply", { position: "bottom-right" });
 
           return;
         }
-
-        controller
-          .handleCreateToken({
+        controller.request({method: 'sys_createToken', params: [{
             precision: Number(precision),
             symbol,
             maxsupply: Number(maxSupply),
@@ -69,7 +67,7 @@ export default function CreateSPT() {
             receiver: receiver || connectedAccountAddress,
             initialSupply: Number(initialSupply),
             ...advancedOptions,
-          })
+        }]})
           .then(async (tx) => {
             if (file) {
               setIsUploading(true);

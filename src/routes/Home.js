@@ -16,7 +16,7 @@ export default function Home() {
     }
 
     if (controller !== null) {
-      controller.connectWallet().then(() => {
+      controller.request({method: 'sys_requestAccounts', params:[]}).then(() => {
         setupState();
       });
     }

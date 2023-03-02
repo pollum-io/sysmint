@@ -18,20 +18,19 @@ export default function Update() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    controller &&
-      setIsLoading(true);
+    controller && setIsLoading(true);
 
-      controller.getUserMintedTokens().then((data) => {
-        data && setTokens(data);
+    controller._sys.getUserMintedTokens().then((data) => {
+      data && setTokens(data);
 
-        setIsLoading(false);
-      });
+      setIsLoading(false);
+    });
 
     return () => setTokens([]);
   }, []);
 
   useEffect(() => {
-    tokens.length || !tokens && setIsLoading(false);
+    tokens.length || (!tokens && setIsLoading(false));
   }, [tokens]);
 
   const dataYup = {
@@ -52,21 +51,25 @@ export default function Update() {
       .then(() => {
         controller &&
           controller
-            .handleUpdateAsset({
-              assetGuid: assetGuid,
-              description: description,
-              ...advancedOptions
+            .request({
+              method: "sys_updateToken",
+              params: [
+                {
+                  assetGuid: assetGuid,
+                  description: description,
+                  ...advancedOptions,
+                },
+              ],
             })
             .catch((err) => {
-              toast.dismiss()
-              toast.error(err, {position: "bottom-right"});
+              toast.dismiss();
+              toast.error(err, { position: "bottom-right" });
             });
-
         event.target.reset();
       })
       .catch((err) => {
         err.errors.forEach((error) => {
-          toast.error(error, {position: "bottom-right"});
+          toast.error(error, { position: "bottom-right" });
         });
       });
   };
@@ -91,17 +94,19 @@ export default function Update() {
     <section>
       <div className="inner wider">
         <h1>Update Token Specifications</h1>
-        <p className="c">Change certain properties of an asset if the asset definition allows 
-          the Issuer/Owner to do so. This process uses `assetUpdate`.</p>
         <p className="c">
-        Please exercise caution when updating asset properties, especially
-         [Issuer Rights]. You should fully understand the functionality
+          Change certain properties of an asset if the asset definition allows
+          the Issuer/Owner to do so. This process uses `assetUpdate`.
+        </p>
+        <p className="c">
+          Please exercise caution when updating asset properties, especially
+          [Issuer Rights]. You should fully understand the functionality
           associated with a field before changing it.
         </p>
         <p className="c">
-        NOTE: This tool cannot be used to update NFTs created with SysMint 
-        because SysMint renders an NFT definition unchangeable upon creation 
-        (all [Issuer Rights] fields are permanently OFF).
+          NOTE: This tool cannot be used to update NFTs created with SysMint
+          because SysMint renders an NFT definition unchangeable upon creation
+          (all [Issuer Rights] fields are permanently OFF).
         </p>
 
         <form onSubmit={handleUpdateAsset}>
@@ -111,12 +116,9 @@ export default function Update() {
           <ToastContainer />
           <div className="form-line">
             <div className="form-group col-100">
-            <label htmlFor="token" className="loaderTokens">
-                <span >
-                  Standard Token{" "}
-                  {isLoading && (
-                    <img  src={loaderImg} alt="" />
-                  )}
+              <label htmlFor="token" className="loaderTokens">
+                <span>
+                  Standard Token {isLoading && <img src={loaderImg} alt="" />}
                 </span>
               </label>
               <select
@@ -138,7 +140,10 @@ export default function Update() {
             <div className="form-group col-67 col-md-50 col-sm-100">
               <label htmlFor="description">
                 Description{" "}
-                <i className="icon-info-circled" title="Description in ASCII describing token. The description will be encoded via JSON in the pubdata field for the asset and will be in the 'desc' field of the JSON object."></i>
+                <i
+                  className="icon-info-circled"
+                  title="Description in ASCII describing token. The description will be encoded via JSON in the pubdata field for the asset and will be in the 'desc' field of the JSON object."
+                ></i>
               </label>
               <textarea
                 onChange={handleInputChange(setDescription)}
